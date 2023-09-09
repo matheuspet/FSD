@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Twitter.dbo.Comment' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Comment">
+          <Property Name="Id" Type="uniqueidentifier" />
+          <Property Name="TweetId" Type="uniqueidentifier" />
+          <Property Name="CommentBy" Type="uniqueidentifier" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="Deleted" Type="char" MaxLength="1" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Twitter.dbo.Follow' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Follow">
+          <Property Name="Id" Type="uniqueidentifier" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="FollowedBy" Type="uniqueidentifier" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="Deleted" Type="char" MaxLength="1" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Twitter.dbo.Likes' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Likes">
+          <Property Name="Id" Type="uniqueidentifier" />
+          <Property Name="TweetId" Type="uniqueidentifier" />
+          <Property Name="LikedBy" Type="uniqueidentifier" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="Deleted" Type="char" MaxLength="1" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Twitter.dbo.ReTweet' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ReTweet">
+          <Property Name="Id" Type="uniqueidentifier" />
+          <Property Name="TweetId" Type="uniqueidentifier" />
+          <Property Name="ReTweetedBy" Type="uniqueidentifier" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="Deleted" Type="char" MaxLength="1" />
+        </EntityType>-->
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Twitter.dbo.Tweet' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Tweet">
+          <Property Name="Id" Type="nvarchar" MaxLength="100" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="100" />
+          <Property Name="OwnerId" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" MaxLength="280" />
+          <Property Name="Likes" Type="int" />
+          <Property Name="Retweets" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="Deleted" Type="char" MaxLength="1" />
+        </EntityType>-->
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="70" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="30" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="30" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Username" Type="nvarchar" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" MaxLength="12" />
+    <Property Name="Bio" Type="nvarchar" MaxLength="500" />
+    <Property Name="CreatedOn" Type="datetime" />
+    <Property Name="DeletedOn" Type="datetime" />
+    <Property Name="Deleted" Type="char" MaxLength="1" />
+  </EntityType>
+  <EntityContainer Name="ModelsStoreContainer">
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

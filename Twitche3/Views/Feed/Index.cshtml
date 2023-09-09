@@ -1,0 +1,116 @@
+﻿@model Twitche3.Models.Tweet
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "For you";
+}
+
+<div class="text-left">
+    <h1 class="display-4">Feed</h1>
+
+</div>
+
+@*
+    NEW TWEET SECTION
+*@
+
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            @using (Html.BeginForm("Post", "Feed", FormMethod.Post))
+            {
+                @Html.TextAreaFor(t => t.Description, new { @cols = 50, @rows = 5, @placeholder = "What is happening?!" });
+                <input type="submit" value="Post">
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+@*
+    TWEETS FROM FEED SECTION
+*@
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-10">
+            <h4>List of all Tweets</h4>
+            @{
+                Twitche3.Models.Tweet[] arr = (Twitche3.Models.Tweet[])ViewData["tweets"];
+                for (var i = 0; i < @arr.Length; i++)
+                {
+                    <div class="row">
+                        <div class="col-sm-2">@arr[i].Owner</div>
+                        <div class="col-sm-3">@arr[i].CreatedOn</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10">@arr[i].Description</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @arr[i].Likes &#128153; @Html.ActionLink(
+"I Like it!",//button text
+"Like",
+"Feed",
+new { arr[i].Id },
+new { @class = "fa-regular fa-heart" })
+                        </div>
+                        <div class="col-sm-2">
+                            @arr[i].Retweets &#8618; @Html.ActionLink(
+"I agree!",//button text
+"Retweet",
+"Feed",
+new { arr[i].Id },
+new { @class = "fa-regular fa-heart" })
+                        </div>
+                    </div>
+
+                    <hr style="width:80%;text-align:left;margin-left:0">
+                    <br />
+                }
+            }
+            <br />
+
+            @*
+                <h4>List of Tweets filtered on ID</h4>
+                @{
+                    arr = (Tweet[])ViewData["idfilter"];
+
+                    {
+                        for (var i = 0; i < @arr.Length; i++)
+                        {
+                            <div class="row">
+                                <div class="col-sm-2">@arr[i].Title</div>
+                                <div class="col-sm-2">@arr[i].OwnerId</div>
+                                <div class="col-sm-2">@arr[i].Description</div>
+                                <div class="col-sm-2">@arr[i].CreatedOn</div>
+                            </div>
+                        }
+                    }
+                }
+                <br />
+
+                <h4>List of Tweets filtered on Email</h4>
+                @{
+                    arr = (Tweet[])ViewData["emailfilter"];
+                    for (var i = 0; i < @arr.Length; i++)
+                    {
+                            <div class="row">
+                                <div class="col-sm-2">@arr[i].Title</div>
+                                <div class="col-sm-2">@arr[i].OwnerId</div>
+                                <div class="col-sm-2">@arr[i].Description</div>
+                                <div class="col-sm-2">@arr[i].CreatedOn</div>
+                            </div>
+                    }
+                }
+                <br />>*@
+        </div>
+
+    </div>
+
+

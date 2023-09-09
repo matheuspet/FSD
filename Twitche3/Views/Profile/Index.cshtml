@@ -1,0 +1,78 @@
+﻿@model Twitche3.Models.User
+
+<br />
+<div class="profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 table-bordered">
+                @{ Object[] arr = (Object[])ViewData["user"];
+                    <div class="card shadow-sm">
+                        <div class="card-body pt-0">
+                            <div style="height: 26px"></div>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td width="30%">
+                                        
+                                    </td>
+                                    <td>@arr[0].</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="card-body pt-0">
+                            <table class="table">
+                                <tr>
+                                    <td width="20%">@arr[1] Following</td>
+                                    <td width="20%">@arr[2] Followers</td>
+                                    <td width="20%">@Html.ActionLink("Edit Profile", "Edit", "Profile")</td>
+                                    <td width="20%">Follow User</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                }
+                <div style="height: 26px"></div>
+
+
+                <div class="card shadow-sm" width="100%">
+                    <div class="card-body pt-0">
+                        </br>
+                        <h4>Posts</h4>
+                        <style>
+                            .divScroll {
+                                overflow: scroll;
+                                height: 100%;
+                                width: 100%;
+                            }
+                        </style>
+
+                        @{ Twitche3.Models.Tweet[] tts = (Twitche3.Models.Tweet[])ViewData["tweets"];
+                            for (var i = 0; i < @tts.Length; i++)
+                            {
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-sm-3">@tts[i].Owner</div>
+                                        <div class="col-sm-4">@tts[i].CreatedOn</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">@tts[i].Description</div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            @tts[i].Likes &#128153; @Html.ActionLink("I Like it!", "Like", "Feed", new { tts[i].Id }, new { @class = "fa-regular fa-heart" })
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @tts[i].Retweets &#8618; @Html.ActionLink("I agree!", "Retweet", "Feed", new { tts[i].Id }, new { @class = "fa-regular fa-heart" })
+                                        </div>
+                                    </div>
+                                    <hr style="width:100%;text-align:left;margin-left:0">
+                                 </div>
+                             }
+                         }
+                                    <br />
+                                </div>
+                            </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,97 @@
+﻿
+@model Twitche3.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<br />
+<div class="edit-profile table-bordered" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4" >
+                <div class="card shadow-sm">
+                    @{Twitche3.Models.User user = (Twitche3.Models.User)ViewData["user"];
+                                        <div class="card-header bg-transparent text-center">
+
+                                            @*<img src="@Url.Content("~/Files/" + user.Photo.ToString())" alt="No picture" width="100px" height="100px" />
+                                            *@
+                                            <h3>Photo Here</h3>
+                                            <h3>@user.Name</h3>
+                                        </div>
+                        <div class="card-body">
+                            <p class="mb-0"><strong class="pr-1">&#64;</strong>@user.Username</p>
+                            <p class="mb-0"><strong class="pr-1">Email: </strong>@user.Email</p>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Your Information</h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        @using (Html.BeginForm("Update", "Profile", FormMethod.Post))
+                        {
+
+                        <table>
+                            <tr>
+                                <td>@Html.Label(user.Name)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(a => a.FirstName)</td>
+                                <td>@Html.TextBoxFor(a => a.FirstName, new { @placeholder = user.FirstName })</td>
+                                <td>@Html.ValidationMessageFor(a => a.FirstName)</td>
+                            </tr>
+                            <tr>
+                                <td> @Html.LabelFor(a => a.LastName)</td>
+                                <td> @Html.TextBoxFor(a => a.LastName, new { @placeholder = user.LastName })</td>
+                                <td> @Html.ValidationMessageFor(a => a.LastName) </td>
+                            </tr>
+                            <tr>
+                                <td> @Html.LabelFor(a => a.Email)</td>
+                                <td> @Html.TextBoxFor(a => a.Email, new { @placeholder = user.Email, style = "width:400px;" })</td>
+                                <td> @Html.ValidationMessageFor(a => a.Email) </td>
+                            </tr>
+                            <tr>
+                                <td> @Html.LabelFor(a => a.Username)</td>
+                                <td> @Html.TextBoxFor(a => a.Username, new { @placeholder = user.Username })</td>
+                                <td> @Html.ValidationMessageFor(a => a.Username) </td>
+                            </tr>
+                            <tr>
+                                <td> @Html.LabelFor(a => a.Password)</td>
+                                <td> @Html.PasswordFor(a => a.Password, new { @placeholder = "*******" })</td>
+                                <td> @Html.ValidationMessageFor(a => a.Password) </td>
+                            </tr>
+                            <tr>
+                                <td> @Html.LabelFor(a => a.Photo)</td>
+                                <td> @Html.TextBoxFor(a => a.Photo, new { type = "file" })</td>
+                                <td> @Html.ValidationMessageFor(a => a.Photo, "", new { @class = "error"}) </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="submit" value="Update Information" />
+                                </td>
+                            </tr>
+                        </table>
+                        }
+                    </div>
+                </div>
+                <div style="height: 26px"></div>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Your Bio</h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        @using (Html.BeginForm("Update", "Profile", FormMethod.Post))
+                        {
+                            <p>@Html.TextAreaFor(t => t.Bio, new { @cols = 70, @rows = 5, @placeholder = user.Bio })</p>
+                            <input type="submit" value="Update Bio" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
