@@ -28,6 +28,7 @@ namespace Twitche3.Controllers
             currentUser = udal.GetUserByUsername(username);
         }
 
+        /*
         public ActionResult Index()
         {
             UserDAL dal = new UserDAL();
@@ -37,6 +38,29 @@ namespace Twitche3.Controllers
 
             object[] obj = { currentUser.Bio, listFollowing.Length.ToString(), listFollowers.Length.ToString() };
 
+            // GET FOLLOWING AND FOLLOWERS AND SEND IN ARRAY 
+
+            ViewData["user"] = obj;
+
+            TweetDAL ttdal = new TweetDAL();
+            var list = ttdal.GetTweets();
+            Tweet[] arr = list.ToArray();
+
+            Tweet[] arr2 = arr.Where(s => s.OwnerId.Equals(currentUser.Id.ToUpper())).ToArray();
+            ViewData["tweets"] = arr2;
+
+            return View();
+        }*/
+
+        [Route("Profile/Index/{OwnerId}")]
+        public ActionResult Index(string OwnerId)
+        {
+            UserDAL dal = new UserDAL();
+            User user = dal.GetUser(OwnerId.ToUpper());
+            var listFollowers = dal.GetFollowers(user.Id).ToArray();
+            var listFollowing = dal.GetFollowing(user.Id).ToArray();
+
+            object[] obj = { user.Bio, listFollowing.Length.ToString(), listFollowers.Length.ToString() };
 
             // GET FOLLOWING AND FOLLOWERS AND SEND IN ARRAY 
 
@@ -46,16 +70,13 @@ namespace Twitche3.Controllers
             var list = ttdal.GetTweets();
             Tweet[] arr = list.ToArray();
 
-
-
-
-            Tweet[] arr2 = arr.Where(s => s.OwnerId.Equals(currentUser.Id.ToUpper())).ToArray();
+            Tweet[] arr2 = arr.Where(s => s.OwnerId.Equals(user.Id.ToUpper())).ToArray();
             ViewData["tweets"] = arr2;
 
             return View();
         }
 
-        public ActionResult Edit()
+            public ActionResult Edit()
         {
             string userid = currentUser.Id;
             UserDAL dal = new UserDAL();

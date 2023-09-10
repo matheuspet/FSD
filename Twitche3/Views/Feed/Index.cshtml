@@ -20,7 +20,7 @@
         <div class="col-10">
             @using (Html.BeginForm("Post", "Feed", FormMethod.Post))
             {
-                @Html.TextAreaFor(t => t.Description, new { @cols = 50, @rows = 5, @placeholder = "What is happening?!" });
+                @Html.TextAreaFor(t => t.Description, new { @cols = 100, @rows = 5, @placeholder = "What is happening?!" });
                 <input type="submit" value="Post">
             }
         </div>
@@ -43,10 +43,17 @@
                 Twitche3.Models.Tweet[] arr = (Twitche3.Models.Tweet[])ViewData["tweets"];
                 for (var i = 0; i < @arr.Length; i++)
                 {
-                    <div class="row">
-                        <div class="col-sm-2">@arr[i].Owner</div>
-                        <div class="col-sm-3">@arr[i].CreatedOn</div>
-                    </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                @Html.ActionLink(
+"@" + @arr[i].Owner,//button text
+"Index",
+"Profile",
+new { arr[i].OwnerId },
+new { @class = "fa-regular fa-heart" })
+                            </div>
+                            <div class="col-sm-3">@arr[i].CreatedOn</div>
+                        </div>
                     <div class="row">
                         <div class="col-10">@arr[i].Description</div>
                     </div>

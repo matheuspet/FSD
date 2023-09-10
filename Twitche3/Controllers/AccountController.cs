@@ -21,20 +21,16 @@ namespace Twitche3.Controllers
         [HttpPost]
         public ActionResult Login(User model)
         {
-
             bool isValidUser = UserValidate.Login(model.Username, model.Password);
 
             if (isValidUser)
             {
                 FormsAuthentication.SetAuthCookie(model.Username, false);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Feed");
             }
-            ModelState.AddModelError("", "Invalid username or password");
             return View();
-
-
-
         }
+
 
         public ActionResult Register()
         {
@@ -44,13 +40,23 @@ namespace Twitche3.Controllers
         [HttpPost]
         public ActionResult Register(User user)
         {
-
-            UserDAL dal = new UserDAL();
-            if (dal.CreateUser(user))
+            try
             {
-                return RedirectToAction("Login");
+                if (ModelState.IsValid)
+                {
+
+                    UserDAL dal = new UserDAL();
+                    if (dal.CreateUser(user))
+                    {
+                        return RedirectToAction("Login");
+                    }
+                }
+                return View();
             }
-            return View();
+            catch
+            {
+                return View();
+            }
 
             
         }

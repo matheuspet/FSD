@@ -10,10 +10,22 @@ using Twitche3.Models.DataAccess;
 
 namespace Twitche3.Controllers
 {
+    [Authorize]
     public class FeedController : Controller
     {
 
-        [Authorize]
+        
+
+
+        private User currentUser;
+
+        public FeedController()
+        {
+            UserDAL udal = new UserDAL();
+            currentUser = udal.GetUserByUsername(System.Web.HttpContext.Current.User.Identity.Name);
+        }
+
+
         public ActionResult Index()
         {
 
@@ -38,11 +50,10 @@ namespace Twitche3.Controllers
 
         public ActionResult Post(Tweet tweet)
         {
-            Console.WriteLine("LOOOOOOOOOOOOOGUEEEEEEEEEE- cheguei no post");
 
             // AQUI CHEGA O TWEET SÓ COM A DESCRIPTION, PRECISA POPULAR O RESTO COM AS INFORMAÇÕES DO USUARIO
-            tweet.Owner = "Matheus Mattos";
-            tweet.OwnerId = "6049102F-062D-46B7-8986-F3FA941CA9E6";
+            tweet.Owner = currentUser.Name;
+            tweet.OwnerId = currentUser.Id.ToUpper();
 
             TweetDAL dal = new TweetDAL();
             dal.CreateTweet(tweet);
@@ -54,10 +65,8 @@ namespace Twitche3.Controllers
         [Route("Feed/Like/{id}")]
         public ActionResult Like(string id)
         {
-            Console.WriteLine("LOOOOOOOOOOOOOGUEEEEEEEEEE- cheguei no LIKEEE");
             Tweet tweet = new Tweet();
             tweet.Id = id;
-            Console.WriteLine("Eu sou o Tweet: " + tweet);
             TweetDAL dal = new TweetDAL();
             dal.LikeTweet(tweet.Id);
 
