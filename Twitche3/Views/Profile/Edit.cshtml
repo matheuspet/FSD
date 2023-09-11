@@ -13,10 +13,9 @@
                 <div class="card shadow-sm">
                     @{Twitche3.Models.User user = (Twitche3.Models.User)ViewData["user"];
                                         <div class="card-header bg-transparent text-center">
-
-                                            @*<img src="@Url.Content("~/Files/" + user.Photo.ToString())" alt="No picture" width="100px" height="100px" />
-                                            *@
-                                            <h3>Photo Here</h3>
+                                            <br />
+                                            <img src="@Url.Content("~/Files/" + user.Photo.ToString())" alt="No picture" width="300px" height="400px" />
+                                            
                                             <h3>@user.Name</h3>
                                         </div>
                         <div class="card-body">
@@ -32,52 +31,63 @@
                         <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Your Information</h3>
                     </div>
                     <div class="card-body pt-0">
-                        @using (Html.BeginForm("Update", "Profile", FormMethod.Post))
-                        {
-
                         <table>
-                            <tr>
-                                <td>@Html.Label(user.Name)</td>
-                            </tr>
-                            <tr>
-                                <td>@Html.LabelFor(a => a.FirstName)</td>
-                                <td>@Html.TextBoxFor(a => a.FirstName, new { @placeholder = user.FirstName })</td>
-                                <td>@Html.ValidationMessageFor(a => a.FirstName)</td>
-                            </tr>
-                            <tr>
-                                <td> @Html.LabelFor(a => a.LastName)</td>
-                                <td> @Html.TextBoxFor(a => a.LastName, new { @placeholder = user.LastName })</td>
-                                <td> @Html.ValidationMessageFor(a => a.LastName) </td>
-                            </tr>
-                            <tr>
-                                <td> @Html.LabelFor(a => a.Email)</td>
-                                <td> @Html.TextBoxFor(a => a.Email, new { @placeholder = user.Email, style = "width:400px;" })</td>
-                                <td> @Html.ValidationMessageFor(a => a.Email) </td>
-                            </tr>
-                            <tr>
-                                <td> @Html.LabelFor(a => a.Username)</td>
-                                <td> @Html.TextBoxFor(a => a.Username, new { @placeholder = user.Username })</td>
-                                <td> @Html.ValidationMessageFor(a => a.Username) </td>
-                            </tr>
-                            <tr>
-                                <td> @Html.LabelFor(a => a.Password)</td>
-                                <td> @Html.PasswordFor(a => a.Password, new { @placeholder = "*******" })</td>
-                                <td> @Html.ValidationMessageFor(a => a.Password) </td>
-                            </tr>
-                            <tr>
-                                <td> @Html.LabelFor(a => a.Photo)</td>
-                                <td> @Html.TextBoxFor(a => a.Photo, new { type = "file" })</td>
-                                <td> @Html.ValidationMessageFor(a => a.Photo, "", new { @class = "error"}) </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="submit" value="Update Information" />
-                                </td>
-                            </tr>
+                            @using (Html.BeginForm("Update", "Profile", FormMethod.Post))
+                            {
+                                <tr>
+                                    <td>@Html.Label(user.Name)</td>
+                                </tr>
+                                <tr>
+                                    <td>@Html.LabelFor(a => a.FirstName, "First Name")</td>
+                                    <td>@Html.TextBoxFor(a => a.FirstName, new { @placeholder = user.FirstName })</td>
+                                    <td>@Html.ValidationMessageFor(a => a.FirstName)</td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.LabelFor(a => a.LastName)</td>
+                                    <td> @Html.TextBoxFor(a => a.LastName, new { @placeholder = user.LastName })</td>
+                                    <td> @Html.ValidationMessageFor(a => a.LastName) </td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.LabelFor(a => a.Email)</td>
+                                    <td> @Html.TextBoxFor(a => a.Email, new { @placeholder = user.Email, style = "width:400px;" })</td>
+                                    <td> @Html.ValidationMessageFor(a => a.Email) </td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.LabelFor(a => a.Username)</td>
+                                    <td> @Html.TextBoxFor(a => a.Username, new { @placeholder = user.Username })</td>
+                                    <td> @Html.ValidationMessageFor(a => a.Username) </td>
+                                </tr>
+                                <tr>
+                                    <td> @Html.LabelFor(a => a.Password)</td>
+                                    <td> @Html.PasswordFor(a => a.Password, new { @placeholder = "*******" })</td>
+                                    <td> @Html.ValidationMessageFor(a => a.Password) </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="submit" value="Update Information" />
+                                    </td>
+                                </tr>
+                            }
                         </table>
+
+                    </div>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Your profile picture</h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        @using (Html.BeginForm("UploadFile", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div>
+                                @Html.TextBox("file", "", new { type = "file" }) <br />
+                                <input type="submit" value="Update Photo" />
+                                @ViewBag.Message
+                            </div>
                         }
                     </div>
                 </div>
+
                 <div style="height: 26px"></div>
                 <div class="card shadow-sm">
                     <div class="card-header bg-transparent border-0">
@@ -86,8 +96,9 @@
                     <div class="card-body pt-0">
                         @using (Html.BeginForm("Update", "Profile", FormMethod.Post))
                         {
-                            <p>@Html.TextAreaFor(t => t.Bio, new { @cols = 70, @rows = 5, @placeholder = user.Bio })</p>
+                            <p>@Html.TextAreaFor(t => t.Bio, new { @cols = 70, @rows = 5, @placeholder = user.Bio, style = "width:100%;" })</p>
                             <input type="submit" value="Update Bio" />
+                            <br />
                         }
                     </div>
                 </div>

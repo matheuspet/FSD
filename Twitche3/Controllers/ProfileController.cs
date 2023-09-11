@@ -28,29 +28,11 @@ namespace Twitche3.Controllers
             currentUser = udal.GetUserByUsername(username);
         }
 
-        /*
-        public ActionResult Index()
+        
+        public ActionResult MyProfile()
         {
-            UserDAL dal = new UserDAL();
-
-            var listFollowers = dal.GetFollowers(currentUser.Id).ToArray();
-            var listFollowing = dal.GetFollowing(currentUser.Id).ToArray();
-
-            object[] obj = { currentUser.Bio, listFollowing.Length.ToString(), listFollowers.Length.ToString() };
-
-            // GET FOLLOWING AND FOLLOWERS AND SEND IN ARRAY 
-
-            ViewData["user"] = obj;
-
-            TweetDAL ttdal = new TweetDAL();
-            var list = ttdal.GetTweets();
-            Tweet[] arr = list.ToArray();
-
-            Tweet[] arr2 = arr.Where(s => s.OwnerId.Equals(currentUser.Id.ToUpper())).ToArray();
-            ViewData["tweets"] = arr2;
-
-            return View();
-        }*/
+            return Index(currentUser.Id);
+        }
 
         [Route("Profile/Index/{OwnerId}")]
         public ActionResult Index(string OwnerId)
@@ -66,6 +48,8 @@ namespace Twitche3.Controllers
 
             ViewData["user"] = obj;
 
+            ViewData["currentUser"] = user;
+
             TweetDAL ttdal = new TweetDAL();
             var list = ttdal.GetTweets();
             Tweet[] arr = list.ToArray();
@@ -73,16 +57,16 @@ namespace Twitche3.Controllers
             Tweet[] arr2 = arr.Where(s => s.OwnerId.Equals(user.Id.ToUpper())).ToArray();
             ViewData["tweets"] = arr2;
 
-            return View();
+            return View("Index");
         }
 
             public ActionResult Edit()
         {
-            string userid = currentUser.Id;
-            UserDAL dal = new UserDAL();
-            var user = dal.GetUser(userid);
+            //string userid = currentUser.Id;
+            //UserDAL dal = new UserDAL();
+            //var user = dal.GetUser(userid);
 
-            ViewData["user"] = user;
+            ViewData["user"] = currentUser;
 
             return View();
         }
@@ -105,47 +89,36 @@ namespace Twitche3.Controllers
 
             dal.UpdateUser(current);
 
-            return RedirectToAction("Index");
+            ViewData["user"] = currentUser;
+            return View("Edit");
         }
 
-        /*
-        public void SavePhoto()
+        [HttpPost]
+        public ActionResult UploadFile(HttpPostedFileBase file)
         {
-            //save photo
-            if (u.Photo != null)
+            try
             {
-                string strFileName;
-                string strFilePath;
-                string strFolder;
-                strFolder = Server.MapPath("./");
-                // Retrieve the name of the file that is posted.
-                strFileName = u.Photo;
-                strFileName = Path.GetFileName(strFileName);
-                if (oFile.Value != "")
+                if (file.ContentLength > 0)
                 {
-                    // Create the folder if it does not exist.
-                    if (!Directory.Exists(strFolder))
-                    {
-                        Directory.CreateDirectory(strFolder);
-                    }
-                    // Save the uploaded file to the server.
-                    strFilePath = strFolder + strFileName;
-                    if (File.Exists(strFilePath))
-                    {
-                        lblUploadResult.Text = strFileName + " already exists on the server!";
-                    }
-                    else
-                    {
-                        oFile.PostedFile.SaveAs(strFilePath);
-                        lblUploadResult.Text = strFileName + " has been successfully uploaded.";
-                    }
+                    string _FileName = Path.GetFileName(file.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/Files"), _FileName);
+                    file.SaveAs(_path);
+                    UserDAL dal = new UserDAL();
+                    currentUser.Photo = _FileName;
+                    dal.UpdateUser(currentUser);
+
                 }
-                else
-                {
-                    lblUploadResult.Text = "Click 'Browse' to select the file to upload.";
-                }
+                ViewBag.Message = "File Uploaded Successfully!!";
             }
-        }*/
+            catch(Exception e)
+            {
+                //Console.WriteLine(e.Message);
+                ViewBag.Message = "File upload failed!!";
+            }
+
+            ViewData["user"] = currentUser;
+            return View("Edit");
+        }
 
 
     }

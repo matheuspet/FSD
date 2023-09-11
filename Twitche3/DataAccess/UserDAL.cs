@@ -68,7 +68,7 @@ namespace Twitche3.DataAccess
                     user.Email = rdr["Email"].ToString();
                     user.Username = rdr["Username"].ToString();
                     user.Password = rdr["Password"].ToString();
-                    //user.Photo = rdr["Photo"].ToString();
+                    user.Photo = rdr["Photo"].ToString();
                     user.Bio = rdr["Bio"].ToString();
 
                     listUsers.Add(user);
@@ -197,7 +197,7 @@ namespace Twitche3.DataAccess
             {
                 //string sql = "INSERT INTO klant(klant_id,naam,voornaam) VALUES(@param1,@param2,@param3)";
 
-                string sql = "UPDATE Users set Name = @param1, FirstName = @param2, LastName = @param3, Email = @param4, Username = @param5, Password = @param6, Bio = @param8  where Id = @param7";
+                string sql = "UPDATE Users set Name = @param1, FirstName = @param2, LastName = @param3, Email = @param4, Username = @param5, Password = @param6, Bio = @param8, Photo = @param9 where Id = @param7";
                 //string sql = "INSERT INTO Users (Id, Name, FirstName, LastName, Email, Username, Password, CreatedOn, DeletedOn, Deleted) VALUES (newId(), 'Matheus Mattos', 'Matheus', 'Mattos', 'matheus_mattos@dell.com', 'username', 'password', getDate(), null, 0);";
 
                 SqlCommand cmd = new SqlCommand(sql, con);
@@ -210,7 +210,7 @@ namespace Twitche3.DataAccess
                 cmd.Parameters.Add("@param5", SqlDbType.NVarChar, 20).Value = user.Username;
                 cmd.Parameters.Add("@param6", SqlDbType.NVarChar, 20).Value = user.Password;
                 cmd.Parameters.Add("@param8", SqlDbType.NVarChar, 500).Value = user.Bio;
-                //cmd.Parameters.Add("@param9", SqlDbType.NVarChar).Value = user.Photo;
+                cmd.Parameters.Add("@param9", SqlDbType.NVarChar).Value = user.Photo;
                 cmd.Parameters.Add("@param7", SqlDbType.UniqueIdentifier).Value = new Guid(user.Id);
 
 
